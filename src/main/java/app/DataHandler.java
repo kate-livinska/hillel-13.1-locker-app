@@ -8,7 +8,9 @@ public class DataHandler {
 
     public int modify(int num) {
         try {
-            lock.lock();
+            while (!lock.tryLock()) {
+                System.out.println("Waiting for lock");
+            }
             num = num * 3;
         } finally {
             lock.unlock();
